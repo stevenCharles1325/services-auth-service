@@ -1,0 +1,18 @@
+model RefreshToken {
+  @@schema("auth")
+  @@map("refresh_tokens")
+
+  id            String      @id @default(uuid())
+  token         String      @unique
+  credentialId  String      @map("credential_id")
+  deviceInfo    String?     @map("device_info")
+  ipAddress     String?     @map("ip_address")
+  expiresAt     DateTime    @map("expires_at")
+  revokedAt     DateTime?   @map("revoked_at")
+  createdAt     DateTime    @default(now()) @map("created_at")
+
+  credential    Credential  @relation(fields: [credentialId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([credentialId])
+}

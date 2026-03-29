@@ -1,0 +1,21 @@
+model OtpCode {
+  @@schema("auth")
+  @@map("otp_codes")
+
+  id            String      @id @default(uuid())
+  code          String
+  type          OtpType     @map("type")
+  credentialId  String      @map("credential_id")
+  expiresAt     DateTime    @map("expires_at")
+  usedAt        DateTime?   @map("used_at")
+  createdAt     DateTime    @default(now()) @map("created_at")
+
+
+  @@index([credentialId])
+}
+
+enum OtpType {
+  @@schema("auth")
+  EMAIL_VERIFICATION
+  PASSWORD_RESET
+}

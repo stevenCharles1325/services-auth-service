@@ -8,7 +8,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc",
     "start": "node dist/index.js",
-    "dev": "cross-env NODE_ENV=development nodemon --exec \"npx tsx\" --ext ts src/index.ts"
+    "dev": "cross-env NODE_ENV=development nodemon --exec \"npx tsx\" --ext ts src/index.ts",
+    "prisma:generate": "prisma generate",
+    "prisma:dev:migrate": "prisma migrate dev --name $npm_config_name"
   },
   "imports": {
     "#Controllers/*": {
