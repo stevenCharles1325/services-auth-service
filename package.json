@@ -3,23 +3,65 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc",
     "start": "node dist/index.js",
-    "dev": "nodemon src/server.ts"
+    "dev": "cross-env NODE_ENV=development nodemon --exec \"npx tsx\" --ext ts src/index.ts"
+  },
+  "imports": {
+    "#Controllers/*": {
+      "development": "./src/controller/*.ts",
+      "production": "./src/controller/*.js"
+    },
+    "#Services/*": {
+      "development": "./src/services/*.ts",
+      "production": "./src/services/*.js"
+    },
+    "#Repositories/*": {
+      "development": "./src/repositories/*.ts",
+      "production": "./src/repositories/*.js"
+    },
+    "#Routes/*": {
+      "development": "./src/routes/*.ts",
+      "production": "./src/routes/*.js"
+    },
+    "#Middlewares/*": {
+      "development": "./src/middlewares/*.ts",
+      "production": "./src/middlewares/*.js"
+    },
+    "#Providers/*": {
+      "development": "./src/providers/*.ts",
+      "production": "./src/providers/*.js"
+    },
+    "#Container": {
+      "development": "./src/container.ts",
+      "production": "./src/container.js"
+    },
+    "#Server": {
+      "development": "./src/server.ts",
+      "production": "./src/server.js"
+    }
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/express": "^4.17.21",
-    "@types/node": "^20.14.9",
+    "@types/node": "^20.19.37",
+    "@types/pg": "^8.20.0",
+    "cross-env": "^10.1.0",
     "nodemon": "^3.1.4",
+    "prisma": "^6.19.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.2"
   },
   "dependencies": {
-    "express": "^4.19.2"
+    "@prisma/adapter-pg": "^7.6.0",
+    "@prisma/client": "^6.19.2",
+    "dotenv": "^17.3.1",
+    "express": "^4.19.2",
+    "pg": "^8.20.0"
   }
 }
