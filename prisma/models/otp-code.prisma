@@ -10,7 +10,6 @@ model OtpCode {
   usedAt        DateTime?   @map("used_at")
   createdAt     DateTime    @default(now()) @map("created_at")
 
-
   @@index([credentialId])
 }
 

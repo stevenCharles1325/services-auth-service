@@ -17,4 +17,23 @@ import * as Prisma from './internal/prismaNamespaceBrowser'
 export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
-
+/**
+ * Model Credential
+ * 
+ */
+export type Credential = Prisma.CredentialModel
+/**
+ * Model OtpCode
+ * 
+ */
+export type OtpCode = Prisma.OtpCodeModel
+/**
+ * Model RefreshToken
+ * 
+ */
+export type RefreshToken = Prisma.RefreshTokenModel
+/**
+ * Model Session
+ * 
+ */
+export type Session = Prisma.SessionModel

@@ -1,5 +1,5 @@
 import express, { Express, Request, Response } from "express";
-import SampleController from "#Controllers/sample.controller";
+import SampleController from "#Controllers/auth.controller";
 
 const app: Express = express();
 const port = process.env.PORT || 3000;
