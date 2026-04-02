@@ -1,9 +1,9 @@
+import ICredentialRepository from "#Interfaces/credential-repository.interface";
 import { Prisma, PrismaClient, Credential } from "#Prisma";
-import { CredentialRepository } from "#Types/credential-repository.type";
 
-export default class AuthRepository implements CredentialRepository {
+export default class CredentialRepository implements ICredentialRepository {
   constructor(
-    private prisma: PrismaClient,
+    private readonly prisma: PrismaClient,
   ) {}
 
   public async findCredentialById(id: string): Promise<Credential | null> {

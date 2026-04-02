@@ -1,6 +1,6 @@
 import type { Prisma, Credential } from "#Prisma";
 
-export interface CredentialRepository {
+export default interface ICredentialRepository {
   findCredentialById(id: string): Promise<Credential | null>;
   findCredentialByEmail(email: string): Promise<Credential | null>;
   create(data: Prisma.CredentialCreateInput): Promise<Credential>;

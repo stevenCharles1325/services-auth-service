@@ -41,9 +41,9 @@
       "development": "./src/schemas/*.ts",
       "production": "./src/schemas/*.js"
     },
-    "#Types/*": {
-      "development": "./src/types/*.ts",
-      "production": "./src/types/*.js"
+    "#Interfaces/*": {
+      "development": "./src/interfaces/*.ts",
+      "production": "./src/interfaces/*.js"
     },
     "#Container": {
       "development": "./src/container.ts",

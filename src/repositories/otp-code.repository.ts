@@ -1,19 +1,19 @@
 import { Prisma, PrismaClient, OtpType, OtpCode } from "#Prisma";
 
-export default class OTPRepository {
+export default class OTPCodeRepository {
   constructor(
-    private prisma: PrismaClient,
+    private readonly prisma: PrismaClient,
   ) {}
 
   public async findOTP (credentialId: string, code: string, type: OtpType): Promise<OtpCode | null> {
     return this.prisma.otpCode.findFirst({ where: { credentialId, code, type }});
   }
 
-  public async create (data: Prisma.OtpCodeCreateInput) {
+  public async create (data: Prisma.OtpCodeCreateInput): Promise<OtpCode> {
     return this.prisma.otpCode.create({ data });
   }
 
-  public async update (id: string, data: Prisma.OtpCodeUpdateInput) {
+  public async update (id: string, data: Prisma.OtpCodeUpdateInput): Promise<OtpCode> {
     return this.prisma.otpCode.update({ where: { id }, data });
   }
 
