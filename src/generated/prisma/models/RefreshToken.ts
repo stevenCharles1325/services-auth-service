@@ -27,6 +27,7 @@ export type AggregateRefreshToken = {
 export type RefreshTokenMinAggregateOutputType = {
   id: string | null
   token: string | null
+  accessToken: string | null
   credentialId: string | null
   deviceInfo: string | null
   ipAddress: string | null
@@ -38,6 +39,7 @@ export type RefreshTokenMinAggregateOutputType = {
 export type RefreshTokenMaxAggregateOutputType = {
   id: string | null
   token: string | null
+  accessToken: string | null
   credentialId: string | null
   deviceInfo: string | null
   ipAddress: string | null
@@ -49,6 +51,7 @@ export type RefreshTokenMaxAggregateOutputType = {
 export type RefreshTokenCountAggregateOutputType = {
   id: number
   token: number
+  accessToken: number
   credentialId: number
   deviceInfo: number
   ipAddress: number
@@ -62,6 +65,7 @@ export type RefreshTokenCountAggregateOutputType = {
 export type RefreshTokenMinAggregateInputType = {
   id?: true
   token?: true
+  accessToken?: true
   credentialId?: true
   deviceInfo?: true
   ipAddress?: true
@@ -73,6 +77,7 @@ export type RefreshTokenMinAggregateInputType = {
 export type RefreshTokenMaxAggregateInputType = {
   id?: true
   token?: true
+  accessToken?: true
   credentialId?: true
   deviceInfo?: true
   ipAddress?: true
@@ -84,6 +89,7 @@ export type RefreshTokenMaxAggregateInputType = {
 export type RefreshTokenCountAggregateInputType = {
   id?: true
   token?: true
+  accessToken?: true
   credentialId?: true
   deviceInfo?: true
   ipAddress?: true
@@ -168,6 +174,7 @@ export type RefreshTokenGroupByArgs<ExtArgs extends runtime.Types.Extensions.Int
 export type RefreshTokenGroupByOutputType = {
   id: string
   token: string
+  accessToken: string
   credentialId: string
   deviceInfo: string | null
   ipAddress: string | null
@@ -200,6 +207,7 @@ export type RefreshTokenWhereInput = {
   NOT?: Prisma.RefreshTokenWhereInput | Prisma.RefreshTokenWhereInput[]
   id?: Prisma.StringFilter<"RefreshToken"> | string
   token?: Prisma.StringFilter<"RefreshToken"> | string
+  accessToken?: Prisma.StringFilter<"RefreshToken"> | string
   credentialId?: Prisma.StringFilter<"RefreshToken"> | string
   deviceInfo?: Prisma.StringNullableFilter<"RefreshToken"> | string | null
   ipAddress?: Prisma.StringNullableFilter<"RefreshToken"> | string | null
@@ -212,6 +220,7 @@ export type RefreshTokenWhereInput = {
 export type RefreshTokenOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   token?: Prisma.SortOrder
+  accessToken?: Prisma.SortOrder
   credentialId?: Prisma.SortOrder
   deviceInfo?: Prisma.SortOrderInput | Prisma.SortOrder
   ipAddress?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -227,6 +236,7 @@ export type RefreshTokenWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.RefreshTokenWhereInput | Prisma.RefreshTokenWhereInput[]
   OR?: Prisma.RefreshTokenWhereInput[]
   NOT?: Prisma.RefreshTokenWhereInput | Prisma.RefreshTokenWhereInput[]
+  accessToken?: Prisma.StringFilter<"RefreshToken"> | string
   credentialId?: Prisma.StringFilter<"RefreshToken"> | string
   deviceInfo?: Prisma.StringNullableFilter<"RefreshToken"> | string | null
   ipAddress?: Prisma.StringNullableFilter<"RefreshToken"> | string | null
@@ -239,6 +249,7 @@ export type RefreshTokenWhereUniqueInput = Prisma.AtLeast<{
 export type RefreshTokenOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   token?: Prisma.SortOrder
+  accessToken?: Prisma.SortOrder
   credentialId?: Prisma.SortOrder
   deviceInfo?: Prisma.SortOrderInput | Prisma.SortOrder
   ipAddress?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -256,6 +267,7 @@ export type RefreshTokenScalarWhereWithAggregatesInput = {
   NOT?: Prisma.RefreshTokenScalarWhereWithAggregatesInput | Prisma.RefreshTokenScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"RefreshToken"> | string
   token?: Prisma.StringWithAggregatesFilter<"RefreshToken"> | string
+  accessToken?: Prisma.StringWithAggregatesFilter<"RefreshToken"> | string
   credentialId?: Prisma.StringWithAggregatesFilter<"RefreshToken"> | string
   deviceInfo?: Prisma.StringNullableWithAggregatesFilter<"RefreshToken"> | string | null
   ipAddress?: Prisma.StringNullableWithAggregatesFilter<"RefreshToken"> | string | null
@@ -267,6 +279,7 @@ export type RefreshTokenScalarWhereWithAggregatesInput = {
 export type RefreshTokenCreateInput = {
   id?: string
   token: string
+  accessToken: string
   deviceInfo?: string | null
   ipAddress?: string | null
   expiresAt: Date | string
@@ -278,6 +291,7 @@ export type RefreshTokenCreateInput = {
 export type RefreshTokenUncheckedCreateInput = {
   id?: string
   token: string
+  accessToken: string
   credentialId: string
   deviceInfo?: string | null
   ipAddress?: string | null
@@ -289,6 +303,7 @@ export type RefreshTokenUncheckedCreateInput = {
 export type RefreshTokenUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   token?: Prisma.StringFieldUpdateOperationsInput | string
+  accessToken?: Prisma.StringFieldUpdateOperationsInput | string
   deviceInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -300,6 +315,7 @@ export type RefreshTokenUpdateInput = {
 export type RefreshTokenUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   token?: Prisma.StringFieldUpdateOperationsInput | string
+  accessToken?: Prisma.StringFieldUpdateOperationsInput | string
   credentialId?: Prisma.StringFieldUpdateOperationsInput | string
   deviceInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -311,6 +327,7 @@ export type RefreshTokenUncheckedUpdateInput = {
 export type RefreshTokenCreateManyInput = {
   id?: string
   token: string
+  accessToken: string
   credentialId: string
   deviceInfo?: string | null
   ipAddress?: string | null
@@ -322,6 +339,7 @@ export type RefreshTokenCreateManyInput = {
 export type RefreshTokenUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   token?: Prisma.StringFieldUpdateOperationsInput | string
+  accessToken?: Prisma.StringFieldUpdateOperationsInput | string
   deviceInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -332,6 +350,7 @@ export type RefreshTokenUpdateManyMutationInput = {
 export type RefreshTokenUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   token?: Prisma.StringFieldUpdateOperationsInput | string
+  accessToken?: Prisma.StringFieldUpdateOperationsInput | string
   credentialId?: Prisma.StringFieldUpdateOperationsInput | string
   deviceInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -353,6 +372,7 @@ export type RefreshTokenOrderByRelationAggregateInput = {
 export type RefreshTokenCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   token?: Prisma.SortOrder
+  accessToken?: Prisma.SortOrder
   credentialId?: Prisma.SortOrder
   deviceInfo?: Prisma.SortOrder
   ipAddress?: Prisma.SortOrder
@@ -364,6 +384,7 @@ export type RefreshTokenCountOrderByAggregateInput = {
 export type RefreshTokenMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   token?: Prisma.SortOrder
+  accessToken?: Prisma.SortOrder
   credentialId?: Prisma.SortOrder
   deviceInfo?: Prisma.SortOrder
   ipAddress?: Prisma.SortOrder
@@ -375,6 +396,7 @@ export type RefreshTokenMaxOrderByAggregateInput = {
 export type RefreshTokenMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   token?: Prisma.SortOrder
+  accessToken?: Prisma.SortOrder
   credentialId?: Prisma.SortOrder
   deviceInfo?: Prisma.SortOrder
   ipAddress?: Prisma.SortOrder
@@ -432,6 +454,7 @@ export type NullableStringFieldUpdateOperationsInput = {
 export type RefreshTokenCreateWithoutCredentialInput = {
   id?: string
   token: string
+  accessToken: string
   deviceInfo?: string | null
   ipAddress?: string | null
   expiresAt: Date | string
@@ -442,6 +465,7 @@ export type RefreshTokenCreateWithoutCredentialInput = {
 export type RefreshTokenUncheckedCreateWithoutCredentialInput = {
   id?: string
   token: string
+  accessToken: string
   deviceInfo?: string | null
   ipAddress?: string | null
   expiresAt: Date | string
@@ -481,6 +505,7 @@ export type RefreshTokenScalarWhereInput = {
   NOT?: Prisma.RefreshTokenScalarWhereInput | Prisma.RefreshTokenScalarWhereInput[]
   id?: Prisma.StringFilter<"RefreshToken"> | string
   token?: Prisma.StringFilter<"RefreshToken"> | string
+  accessToken?: Prisma.StringFilter<"RefreshToken"> | string
   credentialId?: Prisma.StringFilter<"RefreshToken"> | string
   deviceInfo?: Prisma.StringNullableFilter<"RefreshToken"> | string | null
   ipAddress?: Prisma.StringNullableFilter<"RefreshToken"> | string | null
@@ -492,6 +517,7 @@ export type RefreshTokenScalarWhereInput = {
 export type RefreshTokenCreateManyCredentialInput = {
   id?: string
   token: string
+  accessToken: string
   deviceInfo?: string | null
   ipAddress?: string | null
   expiresAt: Date | string
@@ -502,6 +528,7 @@ export type RefreshTokenCreateManyCredentialInput = {
 export type RefreshTokenUpdateWithoutCredentialInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   token?: Prisma.StringFieldUpdateOperationsInput | string
+  accessToken?: Prisma.StringFieldUpdateOperationsInput | string
   deviceInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -512,6 +539,7 @@ export type RefreshTokenUpdateWithoutCredentialInput = {
 export type RefreshTokenUncheckedUpdateWithoutCredentialInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   token?: Prisma.StringFieldUpdateOperationsInput | string
+  accessToken?: Prisma.StringFieldUpdateOperationsInput | string
   deviceInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -522,6 +550,7 @@ export type RefreshTokenUncheckedUpdateWithoutCredentialInput = {
 export type RefreshTokenUncheckedUpdateManyWithoutCredentialInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   token?: Prisma.StringFieldUpdateOperationsInput | string
+  accessToken?: Prisma.StringFieldUpdateOperationsInput | string
   deviceInfo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   ipAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   expiresAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -534,6 +563,7 @@ export type RefreshTokenUncheckedUpdateManyWithoutCredentialInput = {
 export type RefreshTokenSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   token?: boolean
+  accessToken?: boolean
   credentialId?: boolean
   deviceInfo?: boolean
   ipAddress?: boolean
@@ -546,6 +576,7 @@ export type RefreshTokenSelect<ExtArgs extends runtime.Types.Extensions.Internal
 export type RefreshTokenSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   token?: boolean
+  accessToken?: boolean
   credentialId?: boolean
   deviceInfo?: boolean
   ipAddress?: boolean
@@ -558,6 +589,7 @@ export type RefreshTokenSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
 export type RefreshTokenSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   token?: boolean
+  accessToken?: boolean
   credentialId?: boolean
   deviceInfo?: boolean
   ipAddress?: boolean
@@ -570,6 +602,7 @@ export type RefreshTokenSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
 export type RefreshTokenSelectScalar = {
   id?: boolean
   token?: boolean
+  accessToken?: boolean
   credentialId?: boolean
   deviceInfo?: boolean
   ipAddress?: boolean
@@ -578,7 +611,7 @@ export type RefreshTokenSelectScalar = {
   createdAt?: boolean
 }
 
-export type RefreshTokenOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "token" | "credentialId" | "deviceInfo" | "ipAddress" | "expiresAt" | "revokedAt" | "createdAt", ExtArgs["result"]["refreshToken"]>
+export type RefreshTokenOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "token" | "accessToken" | "credentialId" | "deviceInfo" | "ipAddress" | "expiresAt" | "revokedAt" | "createdAt", ExtArgs["result"]["refreshToken"]>
 export type RefreshTokenInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   credential?: boolean | Prisma.CredentialDefaultArgs<ExtArgs>
 }
@@ -597,6 +630,7 @@ export type $RefreshTokenPayload<ExtArgs extends runtime.Types.Extensions.Intern
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     token: string
+    accessToken: string
     credentialId: string
     deviceInfo: string | null
     ipAddress: string | null
@@ -1029,6 +1063,7 @@ export interface Prisma__RefreshTokenClient<T, Null = never, ExtArgs extends run
 export interface RefreshTokenFieldRefs {
   readonly id: Prisma.FieldRef<"RefreshToken", 'String'>
   readonly token: Prisma.FieldRef<"RefreshToken", 'String'>
+  readonly accessToken: Prisma.FieldRef<"RefreshToken", 'String'>
   readonly credentialId: Prisma.FieldRef<"RefreshToken", 'String'>
   readonly deviceInfo: Prisma.FieldRef<"RefreshToken", 'String'>
   readonly ipAddress: Prisma.FieldRef<"RefreshToken", 'String'>

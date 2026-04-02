@@ -4,6 +4,7 @@ model RefreshToken {
 
   id            String      @id @default(uuid())
   token         String      @unique
+  accessToken   String      @map("access_token")
   credentialId  String      @map("credential_id")
   deviceInfo    String?     @map("device_info")
   ipAddress     String?     @map("ip_address")

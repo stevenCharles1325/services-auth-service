@@ -100,6 +100,7 @@ export type OtpCodeScalarFieldEnum = (typeof OtpCodeScalarFieldEnum)[keyof typeo
 export const RefreshTokenScalarFieldEnum = {
   id: 'id',
   token: 'token',
+  accessToken: 'accessToken',
   credentialId: 'credentialId',
   deviceInfo: 'deviceInfo',
   ipAddress: 'ipAddress',

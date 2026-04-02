@@ -37,6 +37,14 @@
       "development": "./src/providers/*.ts",
       "production": "./src/providers/*.js"
     },
+    "#Schemas/*": {
+      "development": "./src/schemas/*.ts",
+      "production": "./src/schemas/*.js"
+    },
+    "#Types/*": {
+      "development": "./src/types/*.ts",
+      "production": "./src/types/*.js"
+    },
     "#Container": {
       "development": "./src/container.ts",
       "production": "./src/container.js"

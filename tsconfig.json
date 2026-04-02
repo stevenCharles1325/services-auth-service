@@ -43,6 +43,8 @@
       "#Routes/*": ["src/routes/*.ts"],
       "#Middlewares/*": ["src/middlewares/*.ts"],
       "#Providers/*": ["src/providers/*.ts"],
+      "#Schemas/*": ["src/schemas/*.ts"],
+      "#Types/*": ["src/types/*.ts"],
       "#Container": ["src/container.ts"],
       "#Server": ["src/server.ts"],
       "#Prisma": ["src/generated/prisma/client.ts"]
