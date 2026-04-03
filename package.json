@@ -41,6 +41,10 @@
       "development": "./src/schemas/*.ts",
       "production": "./src/schemas/*.js"
     },
+     "#Errors/*": {
+      "development": "./src/errors/*.ts",
+      "production": "./src/errors/*.js"
+    },
     "#Interfaces/*": {
       "development": "./src/interfaces/*.ts",
       "production": "./src/interfaces/*.js"

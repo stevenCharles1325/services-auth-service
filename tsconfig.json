@@ -44,6 +44,7 @@
       "#Middlewares/*": ["src/middlewares/*.ts"],
       "#Providers/*": ["src/providers/*.ts"],
       "#Schemas/*": ["src/schemas/*.ts"],
+      "#Errors/*": ["src/errors/*.ts"],
       "#Interfaces/*": ["src/interfaces/*.ts"],
       "#Utils/*": ["src/utils/*.ts"],
       "#Container": ["src/container.ts"],
