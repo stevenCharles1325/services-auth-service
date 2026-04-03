@@ -45,6 +45,7 @@
       "#Providers/*": ["src/providers/*.ts"],
       "#Schemas/*": ["src/schemas/*.ts"],
       "#Interfaces/*": ["src/interfaces/*.ts"],
+      "#Utils/*": ["src/utils/*.ts"],
       "#Container": ["src/container.ts"],
       "#Server": ["src/server.ts"],
       "#Prisma": ["src/generated/prisma/client.ts"]
