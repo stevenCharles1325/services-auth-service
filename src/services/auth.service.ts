@@ -19,9 +19,12 @@ export default class AuthService {
     private readonly env: ENV,
   ) {}
 
-  public async login(
-    signIn: SignInDTO,
-  ): Promise<{ accessToken: string; refreshToken: string } | Error> {
+  public async login(signIn: SignInDTO): Promise<{
+    accessToken: string;
+    accessTokenExpiry: number;
+    refreshToken: string;
+    refreshTokenExpiry: number;
+  }> {
     const { email, password } = signIn;
 
     const credential =
@@ -36,25 +39,18 @@ export default class AuthService {
     if (!isPasswordMatch)
       throw new BadRequestError({ message: "Incorrect password" });
 
-    const refreshRecord = await this.refreshTokenRepository.create({
-      credential: {
-        connect: { id: credential.id },
-      },
-      token: "pending",
-      accessToken: "pending",
-      expiresAt: this.tokenManager.getExpiry("access"),
-    });
+    const refreshTokenId = crypto.randomUUID();
 
     const accessTokenPayload = {
       sub: credential.userId,
       email: credential.email,
       isVerified: credential.isVerified,
-      jti: refreshRecord.id,
+      jti: refreshTokenId,
     };
 
     const refreshTokenPayload = {
       sub: credential.userId,
-      jti: refreshRecord.id,
+      jti: refreshTokenId,
     };
 
     const accessToken =
@@ -65,15 +61,25 @@ export default class AuthService {
     const hashedAccessToken = await this.hashManager.sha256(accessToken);
     const hashedRefreshToken = await this.hashManager.sha256(refreshToken);
 
-    await this.refreshTokenRepository.update(refreshRecord.id, {
-      token: hashedRefreshToken,
-      accessToken: hashedAccessToken,
+    await this.refreshTokenRepository.create({
+      id: refreshTokenId,
+      credential: {
+        connect: { id: credential.id },
+      },
+      token: hashedAccessToken,
+      accessToken: hashedRefreshToken,
+      expiresAt: this.tokenManager.getExpiry("refresh"),
     });
 
-    return { accessToken, refreshToken };
+    return {
+      accessToken,
+      accessTokenExpiry: this.tokenManager.getExpiry("access").getTime(),
+      refreshToken,
+      refreshTokenExpiry: this.tokenManager.getExpiry("refresh").getTime(),
+    };
   }
 
-  public async register(signUp: SignUpDTO): Promise<void | Error> {
+  public async register(signUp: SignUpDTO): Promise<void> {
     const { email, password } = signUp;
 
     const existing =
@@ -82,6 +88,7 @@ export default class AuthService {
       throw new BadRequestError({ message: "Email already in use" });
 
     const userId = crypto.randomUUID();
+    const refreshTokenId = crypto.randomUUID();
 
     const credential = await this.credentialRepository.create({
       userId,
@@ -91,25 +98,16 @@ export default class AuthService {
 
     // TODO - invoke create user event to create user in user-service
 
-    const refreshRecord = await this.refreshTokenRepository.create({
-      credential: {
-        connect: { id: credential.id },
-      },
-      token: "pending",
-      accessToken: "pending",
-      expiresAt: this.tokenManager.getExpiry("refresh"),
-    });
-
     const accessTokenPayload = {
       sub: credential.userId,
       email: credential.email,
       isVerified: credential.isVerified,
-      jti: refreshRecord.id,
+      jti: refreshTokenId,
     };
 
     const refreshTokenPayload = {
       sub: credential.userId,
-      jti: refreshRecord.id,
+      jti: refreshTokenId,
     };
 
     const accessToken =
@@ -120,9 +118,14 @@ export default class AuthService {
     const hashedAccessToken = await this.hashManager.sha256(accessToken);
     const hashedRefreshToken = await this.hashManager.sha256(refreshToken);
 
-    await this.refreshTokenRepository.update(refreshRecord.id, {
-      token: hashedRefreshToken,
-      accessToken: hashedAccessToken,
+    await this.refreshTokenRepository.create({
+      id: refreshTokenId,
+      credential: {
+        connect: { id: credential.id },
+      },
+      token: hashedAccessToken,
+      accessToken: hashedRefreshToken,
+      expiresAt: this.tokenManager.getExpiry("refresh"),
     });
 
     const code = crypto.randomInt(100000, 1000000).toString();
@@ -139,10 +142,17 @@ export default class AuthService {
     // TODO - send event to notification service to send OTP email
   }
 
-  public async verifyEmail(
-    credentialId: string,
-    code: string,
-  ): Promise<void | Error> {
+  public async logout(refreshToken: string): Promise<void> {
+    const hashedRefreshToken = await this.hashManager.sha256(refreshToken);
+    const record =
+      await this.refreshTokenRepository.findByRefreshToken(hashedRefreshToken);
+    if (!record)
+      throw new NotFoundError({ message: "Refresh token not found" });
+
+    await this.refreshTokenRepository.deleteMany([record.id]);
+  }
+
+  public async verifyEmail(credentialId: string, code: string): Promise<void> {
     const otpRecord = await this.otpCodeRepository.findOTP(
       credentialId,
       code,
@@ -157,7 +167,7 @@ export default class AuthService {
     await this.otpCodeRepository.markOTPAsUsed(otpRecord.id);
   }
 
-  public async forgotPassword(email: string): Promise<void | Error> {
+  public async forgotPassword(email: string): Promise<void> {
     const credential =
       await this.credentialRepository.findCredentialByEmail(email);
     if (!credential)
@@ -199,19 +209,12 @@ export default class AuthService {
     await this.otpCodeRepository.markOTPAsUsed(otpRecord.id);
   }
 
-  public async logout(refreshToken: string): Promise<void | Error> {
-    const hashedRefreshToken = await this.hashManager.sha256(refreshToken);
-    const record =
-      await this.refreshTokenRepository.findByRefreshToken(hashedRefreshToken);
-    if (!record)
-      throw new NotFoundError({ message: "Refresh token not found" });
-
-    await this.refreshTokenRepository.deleteMany([record.id]);
-  }
-
-  public async refreshToken(
-    oldRefreshToken: string,
-  ): Promise<{ accessToken: string; refreshToken: string } | Error> {
+  public async refreshToken(oldRefreshToken: string): Promise<{
+    accessToken: string;
+    accessTokenExpiry: number;
+    refreshToken: string;
+    refreshTokenExpiry: number;
+  }> {
     const hashedOldRefreshToken =
       await this.hashManager.sha256(oldRefreshToken);
     const record = await this.refreshTokenRepository.findByRefreshToken(
@@ -226,16 +229,19 @@ export default class AuthService {
     if (!credential)
       throw new NotFoundError({ message: "Credential not found" });
 
+    await this.refreshTokenRepository.revokeByToken(hashedOldRefreshToken);
+
+    const refreshTokenId = crypto.randomUUID();
     const accessTokenPayload = {
       sub: credential.userId,
       email: credential.email,
       isVerified: credential.isVerified,
-      jti: record.id,
+      jti: refreshTokenId,
     };
 
     const refreshTokenPayload = {
       sub: credential.userId,
-      jti: record.id,
+      jti: refreshTokenId,
     };
 
     const newAccessToken =
@@ -246,12 +252,21 @@ export default class AuthService {
     const hashedAccessToken = await this.hashManager.sha256(newAccessToken);
     const hashedRefreshToken = await this.hashManager.sha256(newRefreshToken);
 
-    await this.refreshTokenRepository.update(record.id, {
+    await this.refreshTokenRepository.create({
+      id: refreshTokenId,
+      credential: {
+        connect: { id: credential.id },
+      },
       token: hashedRefreshToken,
       accessToken: hashedAccessToken,
       expiresAt: this.tokenManager.getExpiry("refresh"),
     });
 
-    return { accessToken: newAccessToken, refreshToken: newRefreshToken };
+    return {
+      accessToken: newAccessToken,
+      accessTokenExpiry: this.tokenManager.getExpiry("access").getTime(),
+      refreshToken: newRefreshToken,
+      refreshTokenExpiry: this.tokenManager.getExpiry("refresh").getTime(),
+    };
   }
 }

@@ -62,8 +62,19 @@ export const RefreshTokenSchema = z.object({
   token: z.string(),
 });
 
+export const VerifyEmailSchema = z.object({
+  credentialId: z.string(),
+  code: z.string().length(6, "OTP code must be 6 digits"),
+});
+
+export const ForgotPasswordSchema = z.object({
+  email: z.email(),
+});
+
 export type SignUpDTO = z.infer<typeof SignUpSchema>;
 export type SignInDTO = z.infer<typeof SignInSchema>;
+export type ForgotPasswordDTO = z.infer<typeof ForgotPasswordSchema>;
+export type VerifyEmailDTO = z.infer<typeof VerifyEmailSchema>;
 export type ResetPasswordDTO = z.infer<typeof ResetPasswordSchema>;
 export type OTPCodeDTO = z.infer<typeof OTPCodeSchema>;
 export type RefreshTokenDTO = z.infer<typeof RefreshTokenSchema>;
