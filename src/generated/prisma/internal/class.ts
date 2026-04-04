@@ -23,7 +23,7 @@ const config: runtime.GetPrismaClientConfig = {
       "value": "prisma-client"
     },
     "output": {
-      "value": "/home/lemon/personal/microservices/auth-service/src/generated/prisma",
+      "value": "/Users/stevencharlespalabyab/Desktop/Projects/microservices/auth-service/src/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -32,12 +32,20 @@ const config: runtime.GetPrismaClientConfig = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "debian-openssl-3.0.x",
+        "value": "darwin-arm64",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "darwin-arm64"
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/home/lemon/personal/microservices/auth-service/prisma/schema.prisma",
+    "sourceFilePath": "/Users/stevencharlespalabyab/Desktop/Projects/microservices/auth-service/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativePath": "../../../prisma",
@@ -56,8 +64,8 @@ const config: runtime.GetPrismaClientConfig = {
       }
     }
   },
-  "inlineSchema": "model Credential {\n\n  id         String  @id @default(uuid())\n  userId     String  @unique\n  email      String  @unique\n  password   String\n  isVerified Boolean @default(false)\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  refreshTokens RefreshToken[]\n  sessions      Session[]\n\n  @@map(\"credentials\")\n  @@schema(\"auth\")\n}\n\nmodel OtpCode {\n\n  id           String    @id @default(uuid())\n  code         String\n  type         OtpType   @map(\"type\")\n  credentialId String    @map(\"credential_id\")\n  expiresAt    DateTime  @map(\"expires_at\")\n  usedAt       DateTime? @map(\"used_at\")\n  createdAt    DateTime  @default(now()) @map(\"created_at\")\n\n  @@index([credentialId])\n  @@map(\"otp_codes\")\n  @@schema(\"auth\")\n}\n\nenum OtpType {\n  EMAIL_VERIFICATION\n  PASSWORD_RESET\n\n  @@schema(\"auth\")\n}\n\nmodel RefreshToken {\n\n  id           String    @id @default(uuid())\n  token        String    @unique\n  accessToken  String    @map(\"access_token\")\n  credentialId String    @map(\"credential_id\")\n  deviceInfo   String?   @map(\"device_info\")\n  ipAddress    String?   @map(\"ip_address\")\n  expiresAt    DateTime  @map(\"expires_at\")\n  revokedAt    DateTime? @map(\"revoked_at\")\n  createdAt    DateTime  @default(now()) @map(\"created_at\")\n\n  credential Credential @relation(fields: [credentialId], references: [id], onDelete: Cascade)\n\n  @@index([token])\n  @@index([credentialId])\n  @@map(\"refresh_tokens\")\n  @@schema(\"auth\")\n}\n\nmodel Session {\n\n  id           String    @id @default(uuid())\n  credentialId String    @map(\"credential_id\")\n  deviceInfo   String?   @map(\"device_info\")\n  ipAddress    String?   @map(\"ip_address\")\n  expiresAt    DateTime  @map(\"expires_at\")\n  lastActiveAt DateTime? @map(\"last_active_at\")\n  createdAt    DateTime  @default(now()) @map(\"created_at\")\n\n  credential Credential @relation(fields: [credentialId], references: [id], onDelete: Cascade)\n\n  @@index([credentialId])\n  @@map(\"sessions\")\n  @@schema(\"auth\")\n}\n\n// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n  schemas  = [\"auth\"]\n}\n",
-  "inlineSchemaHash": "f719cbc1e2ef2b6e30d2e08bb765652869dcfab780176f2a2e277007c340ac31",
+  "inlineSchema": "model Credential {\n\n  id         String  @id @default(uuid())\n  userId     String  @unique\n  email      String  @unique\n  password   String\n  isVerified Boolean @default(false)\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  refreshTokens RefreshToken[]\n  sessions      Session[]\n\n  @@map(\"credentials\")\n  @@schema(\"auth\")\n}\n\nmodel OtpCode {\n\n  id           String    @id @default(uuid())\n  code         String\n  type         OtpType   @map(\"type\")\n  credentialId String    @map(\"credential_id\")\n  expiresAt    DateTime  @map(\"expires_at\")\n  usedAt       DateTime? @map(\"used_at\")\n  createdAt    DateTime  @default(now()) @map(\"created_at\")\n\n  @@index([credentialId])\n  @@map(\"otp_codes\")\n  @@schema(\"auth\")\n}\n\nenum OtpType {\n  EMAIL_VERIFICATION\n  PASSWORD_RESET\n\n  @@schema(\"auth\")\n}\n\nmodel RefreshToken {\n\n  id           String    @id @default(uuid())\n  token        String    @unique\n  accessToken  String    @map(\"access_token\")\n  credentialId String    @map(\"credential_id\")\n  deviceInfo   String?   @map(\"device_info\")\n  ipAddress    String?   @map(\"ip_address\")\n  expiresAt    DateTime  @map(\"expires_at\")\n  revokedAt    DateTime? @map(\"revoked_at\")\n  createdAt    DateTime  @default(now()) @map(\"created_at\")\n\n  credential Credential @relation(fields: [credentialId], references: [id], onDelete: Cascade)\n\n  @@index([token])\n  @@index([credentialId])\n  @@map(\"refresh_tokens\")\n  @@schema(\"auth\")\n}\n\nmodel Session {\n\n  id           String    @id @default(uuid())\n  credentialId String    @map(\"credential_id\")\n  deviceInfo   String?   @map(\"device_info\")\n  ipAddress    String?   @map(\"ip_address\")\n  expiresAt    DateTime  @map(\"expires_at\")\n  lastActiveAt DateTime? @map(\"last_active_at\")\n  createdAt    DateTime  @default(now()) @map(\"created_at\")\n\n  credential Credential @relation(fields: [credentialId], references: [id], onDelete: Cascade)\n\n  @@index([credentialId])\n  @@map(\"sessions\")\n  @@schema(\"auth\")\n}\n\n// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider      = \"prisma-client\"\n  output        = \"../src/generated/prisma\"\n  binaryTargets = [\"native\", \"darwin-arm64\", \"debian-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n  schemas  = [\"auth\"]\n}\n",
+  "inlineSchemaHash": "e1190b1c32a3ecfda5c0f7cfd8402c9a8574232232a7908f8379473a6735800b",
   "copyEngine": true,
   "runtimeDataModel": {
     "models": {},
