@@ -1,12 +1,21 @@
-import express, { Express, Request, Response } from "express";
+import Container from "#Container";
+import express from "express";
+import cors from "cors";
+import helmet from "helmet";
+import createAuthRoutes from "#Routes/auth.route";
+import { errorMiddleware } from "#Middlewares/error.middleware";
 
-const app: Express = express();
-const port = process.env.PORT || 3000;
+export default async function createServer(container: Container) {
+  const app = express();
 
-app.get("/", (req: Request, res: Response) => {
-  res.json({"message":"Express + TypeScript Server"});
-});
+  // Middleware
+  app.use(helmet());
+  app.use(cors());
+  app.use(express.json());
 
-app.listen(port, () => {
-  console.log(`[server]: Server is running at http://localhost:${port}`);
-});
+  app.use("/api/auth", createAuthRoutes(container.authController));
+
+  app.use(errorMiddleware);
+
+  return app;
+}

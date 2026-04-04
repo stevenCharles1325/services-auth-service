@@ -38,4 +38,6 @@ export default function createAuthRoutes(authController: AuthController) {
     authController.resetPassword.bind(authController),
   );
   router.post("/refresh", authController.refreshToken.bind(authController));
+
+  return router;
 }
