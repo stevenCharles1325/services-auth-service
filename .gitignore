@@ -72,4 +72,4 @@ typings/
 # Serverless directories
 .serverless
 
-/src/generated/prisma
+src/generated/prisma

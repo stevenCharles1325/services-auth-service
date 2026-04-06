@@ -49,7 +49,7 @@
       "#Utils/*": ["src/utils/*.ts"],
       "#Managers/*": ["src/config/managers/*.ts"],
       "#Constants": ["src/config/constants.ts"],
-      "#EnvManager": ["src/config/env/env.manager.ts"],
+      "#Env": ["src/config/env/index.ts"],
       "#Container": ["src/container.ts"],
       "#Server": ["src/server.ts"],
       "#Prisma": ["src/generated/prisma/client.ts"]

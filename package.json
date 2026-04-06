@@ -5,7 +5,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest --config vitest.config.ts",
+    "test:integration": "vitest --config vitest.integration.config.ts",
+    "test:e2e": "vitest --config vitest.e2e.config.ts",
+    "test:all": "vitest --config vitest.config.ts && vitest --config vitest.integration.config.ts && vitest --config vitest.e2e.config.ts",
+    "test:coverage": "vitest --coverage --config vitest.config.ts",
     "build": "npx tsc",
     "start": "node dist/index.js",
     "dev": "cross-env NODE_ENV=development nodemon --exec \"npx tsx\" --ext ts src/index.ts",
@@ -61,9 +65,9 @@
       "development": "./src/config/constants.ts",
       "production": "./src/config/constants.js"
     },
-    "#EnvManager": {
-      "development": "./src/config/env/env.manager.ts",
-      "production": "./src/config/env/env.manager.js"
+    "#Env": {
+      "development": "./src/config/env/index.ts",
+      "production": "./src/config/env/index.js"
     },
     "#Managers": {
       "development": "./src/config/managers/*.ts",

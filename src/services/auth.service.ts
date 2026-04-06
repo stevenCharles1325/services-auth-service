@@ -6,7 +6,7 @@ import type HashManager from "src/config/managers/hash.manager";
 import TokenManager from "src/config/managers/token.manager";
 import crypto from "crypto";
 import { OTP_CODE_EXPIRATION_MINUTES } from "src/config/constants";
-import { ENV } from "src/config/env";
+import { AppConfig } from "#Env";
 import { BadRequestError, NotFoundError } from "#Errors/http.error";
 import { logger } from "#Managers/log.manager";
 
@@ -19,7 +19,7 @@ export default class AuthService {
     private readonly otpCodeRepository: OTPCodeRepository,
     private readonly hashManager: HashManager,
     private readonly tokenManager: TokenManager,
-    private readonly env: ENV,
+    private readonly env: AppConfig,
   ) {}
 
   public async login(signIn: SignInDTO): Promise<{

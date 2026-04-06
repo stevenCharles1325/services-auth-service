@@ -36,4 +36,4 @@ function createProvider(): IEnvProvider {
 
 // 3. Export a single instance used everywhere
 export const envManager = new EnvManager(schema, createProvider());
-export type ENV = z.infer<typeof schema>;
+export type AppConfig = z.infer<typeof schema>;
