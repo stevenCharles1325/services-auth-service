@@ -1,4 +1,5 @@
 import Container from "#Container";
+import { logger } from "#Managers/log.manager";
 import createServer from "#Server";
 
 async function bootstrap() {
@@ -9,11 +10,11 @@ async function bootstrap() {
 
   const port = process.env.PORT || 3000;
   app.listen(port, () => {
-    console.log(`Auth service is running on port ${port}`);
+    logger.info({ port }, "Auth service is running");
   });
 
   const shutdown = async (signal: string): Promise<void> => {
-    console.log(`[server]: ${signal} received, shutting down`);
+    logger.info({ signal }, "[server]: Signal received, shutting down");
     process.exit(0);
   };
 
@@ -22,6 +23,6 @@ async function bootstrap() {
 }
 
 bootstrap().catch((err) => {
-  console.error("Failed to start server:", err);
+  logger.error({ err }, "Failed to start server");
   process.exit(1);
 });

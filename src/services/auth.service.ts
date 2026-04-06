@@ -8,8 +8,11 @@ import crypto from "crypto";
 import { OTP_CODE_EXPIRATION_MINUTES } from "src/config/constants";
 import { ENV } from "src/config/env";
 import { BadRequestError, NotFoundError } from "#Errors/http.error";
+import { logger } from "#Managers/log.manager";
 
 export default class AuthService {
+  private readonly logger = logger.child({ context: "AuthService" });
+
   constructor(
     private readonly credentialRepository: CredentialRepository,
     private readonly refreshTokenRepository: RefreshTokenRepository,
@@ -27,17 +30,23 @@ export default class AuthService {
   }> {
     const { email, password } = signIn;
 
+    this.logger.info({ email }, "Login attempt");
+
     const credential =
       await this.credentialRepository.findCredentialByEmail(email);
-    if (!credential)
+    if (!credential) {
+      this.logger.error({ email }, "Login failed: Credential not found");
       throw new NotFoundError({ message: "Credential not found" });
+    }
 
     const isPasswordMatch = await this.hashManager.compare(
       password,
       credential.password,
     );
-    if (!isPasswordMatch)
+    if (!isPasswordMatch) {
+      this.logger.error({ email }, "Login failed: Incorrect password");
       throw new BadRequestError({ message: "Incorrect password" });
+    }
 
     const refreshTokenId = crypto.randomUUID();
 
@@ -71,6 +80,8 @@ export default class AuthService {
       expiresAt: this.tokenManager.getExpiry("refresh"),
     });
 
+    this.logger.info({ email }, "Login successful");
+
     return {
       accessToken,
       accessTokenExpiry: this.tokenManager.getExpiry("access").getTime(),
@@ -82,10 +93,14 @@ export default class AuthService {
   public async register(signUp: SignUpDTO): Promise<void> {
     const { email, password } = signUp;
 
+    this.logger.info({ email }, "Registration attempt");
+
     const existing =
       await this.credentialRepository.findCredentialByEmail(email);
-    if (existing)
+    if (existing) {
+      this.logger.error({ email }, "Registration failed: Email already in use");
       throw new BadRequestError({ message: "Email already in use" });
+    }
 
     const userId = crypto.randomUUID();
     const refreshTokenId = crypto.randomUUID();
@@ -140,38 +155,70 @@ export default class AuthService {
     });
 
     // TODO - send event to notification service to send OTP email
+    this.logger.info(
+      { email, otpCodeId: otpCode.id },
+      "User registered successfully",
+    );
   }
 
   public async logout(refreshToken: string): Promise<void> {
+    this.logger.info("Logout attempt");
+
     const hashedRefreshToken = await this.hashManager.sha256(refreshToken);
     const record =
       await this.refreshTokenRepository.findByRefreshToken(hashedRefreshToken);
-    if (!record)
+    if (!record) {
+      this.logger.error("Logout failed: Refresh token not found");
       throw new NotFoundError({ message: "Refresh token not found" });
+    }
 
     await this.refreshTokenRepository.deleteMany([record.id]);
+
+    this.logger.info("Logout successful");
   }
 
   public async verifyEmail(credentialId: string, code: string): Promise<void> {
+    this.logger.info({ credentialId }, "Email verification attempt");
+
     const otpRecord = await this.otpCodeRepository.findOTP(
       credentialId,
       code,
       "EMAIL_VERIFICATION",
     );
 
-    if (!otpRecord) throw new BadRequestError({ message: "Invalid OTP code" });
-    if (otpRecord.expiresAt < new Date())
+    if (!otpRecord) {
+      this.logger.error(
+        { credentialId },
+        "Email verification failed: Invalid OTP code",
+      );
+      throw new BadRequestError({ message: "Invalid OTP code" });
+    }
+    if (otpRecord.expiresAt < new Date()) {
+      this.logger.error(
+        { credentialId },
+        "Email verification failed: OTP code has expired",
+      );
       throw new BadRequestError({ message: "OTP code has expired" });
+    }
 
     await this.credentialRepository.markEmailAsVerified(credentialId);
     await this.otpCodeRepository.markOTPAsUsed(otpRecord.id);
+
+    this.logger.info({ credentialId }, "Email verified successfully");
   }
 
   public async forgotPassword(email: string): Promise<void> {
+    this.logger.info({ email }, "Forgot password attempt");
+
     const credential =
       await this.credentialRepository.findCredentialByEmail(email);
-    if (!credential)
+    if (!credential) {
+      this.logger.error(
+        { email },
+        "Forgot password failed: Credential not found",
+      );
       throw new NotFoundError({ message: "Credential not found" });
+    }
 
     const code = crypto.randomInt(100000, 1000000).toString();
 
@@ -185,6 +232,7 @@ export default class AuthService {
     });
 
     // TODO - send event to notification service to send OTP email
+    this.logger.info({ email }, "Forgot password OTP generated successfully");
   }
 
   public async resetPassword(
@@ -192,21 +240,35 @@ export default class AuthService {
     code: string,
     data: ResetPasswordDTO,
   ): Promise<void | Error> {
+    this.logger.info({ credentialId }, "Reset password attempt");
+
     const otpRecord = await this.otpCodeRepository.findOTP(
       credentialId,
       code,
       "PASSWORD_RESET",
     );
 
-    if (!otpRecord) throw new BadRequestError({ message: "Invalid OTP code" });
-    if (otpRecord.expiresAt < new Date())
+    if (!otpRecord) {
+      this.logger.error(
+        { credentialId },
+        "Reset password failed: Invalid OTP code",
+      );
+      throw new BadRequestError({ message: "Invalid OTP code" });
+    }
+    if (otpRecord.expiresAt < new Date()) {
+      this.logger.error(
+        { credentialId },
+        "Reset password failed: OTP code has expired",
+      );
       throw new BadRequestError({ message: "OTP code has expired" });
+    }
 
     const hashedPassword = await this.hashManager.hash(data.password);
     await this.credentialRepository.update(credentialId, {
       password: hashedPassword,
     });
     await this.otpCodeRepository.markOTPAsUsed(otpRecord.id);
+    this.logger.info({ credentialId }, "Password reset successfully");
   }
 
   public async refreshToken(oldRefreshToken: string): Promise<{
@@ -215,19 +277,25 @@ export default class AuthService {
     refreshToken: string;
     refreshTokenExpiry: number;
   }> {
+    this.logger.info("Refresh token attempt");
+
     const hashedOldRefreshToken =
       await this.hashManager.sha256(oldRefreshToken);
     const record = await this.refreshTokenRepository.findByRefreshToken(
       hashedOldRefreshToken,
     );
-    if (!record)
+    if (!record) {
+      this.logger.error("Refresh token not found");
       throw new NotFoundError({ message: "Refresh token not found" });
+    }
 
     const credential = await this.credentialRepository.findCredentialById(
       record.credentialId,
     );
-    if (!credential)
+    if (!credential) {
+      this.logger.error("Credential not found");
       throw new NotFoundError({ message: "Credential not found" });
+    }
 
     await this.refreshTokenRepository.revokeByToken(hashedOldRefreshToken);
 
@@ -261,6 +329,8 @@ export default class AuthService {
       accessToken: hashedAccessToken,
       expiresAt: this.tokenManager.getExpiry("refresh"),
     });
+
+    this.logger.info("Token refreshed successfully");
 
     return {
       accessToken: newAccessToken,
