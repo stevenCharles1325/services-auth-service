@@ -7,7 +7,7 @@ import TokenManager from "src/config/managers/token.manager";
 import crypto from "crypto";
 import { OTP_CODE_EXPIRATION_MINUTES } from "src/config/constants";
 import { AppConfig } from "#Env";
-import { BadRequestError, NotFoundError } from "#Errors/http.error";
+import { BadRequestError, ConflictError, NotFoundError } from "#Errors/http.error";
 import { logger } from "#Managers/log.manager";
 
 export default class AuthService {
@@ -99,7 +99,7 @@ export default class AuthService {
       await this.credentialRepository.findCredentialByEmail(email);
     if (existing) {
       this.logger.error({ email }, "Registration failed: Email already in use");
-      throw new BadRequestError({ message: "Email already in use" });
+      throw new ConflictError({ message: "Email already in use" });
     }
 
     const userId = crypto.randomUUID();
