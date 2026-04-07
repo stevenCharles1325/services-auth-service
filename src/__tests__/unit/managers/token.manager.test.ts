@@ -1,4 +1,3 @@
-// src/__tests__/unit/managers/token.manager.test.ts
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import TokenManager from "#Managers/token.manager";
 

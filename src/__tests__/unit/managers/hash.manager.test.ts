@@ -1,4 +1,3 @@
-// src/__tests__/unit/managers/hash.manager.test.ts
 import HashManager from "#Managers/hash.manager";
 import { describe, it, expect, beforeEach } from "vitest";
 

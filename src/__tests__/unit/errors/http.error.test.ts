@@ -1,4 +1,3 @@
-// src/__tests__/unit/errors/http.error.test.ts
 import { describe, it, expect } from "vitest";
 import {
   BadRequestError,
