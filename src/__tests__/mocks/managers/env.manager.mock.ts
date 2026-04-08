@@ -1,5 +1,3 @@
-import { vi } from "vitest";
-
 export const mockEnv = {
   NODE_ENV: "test",
   PORT: 3000,
