@@ -13,7 +13,14 @@ export default async function createServer(container: Container) {
   app.use(cors());
   app.use(express.json());
 
-  app.use("/api/auth", createAuthRoutes(container.authController));
+  app.use(
+    "/api/auth",
+    createAuthRoutes(
+      container.authController,
+      container.turnstileMiddleware,
+      container.createRateLimit
+    ),
+  );
 
   app.use(errorMiddleware);
 

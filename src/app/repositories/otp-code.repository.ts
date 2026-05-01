@@ -1,6 +1,7 @@
+import IOtpCodeRepository from "#Core/types/otp-code.type";
 import { Prisma, PrismaClient, OtpType, OtpCode } from "#Prisma";
 
-export default class OTPCodeRepository {
+export default class OTPCodeRepository implements IOtpCodeRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
   public async findOTP(

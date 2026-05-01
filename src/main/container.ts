@@ -7,11 +7,24 @@ import AuthService from "#App/services/auth.service";
 import { envManager } from "#Core/config/env/index";
 import HashManager from "#Core/config/managers/hash.manager";
 import TokenManager from "#Core/config/managers/token.manager";
+import { RequestHandler } from "express";
+import { RateLimitOptions } from "#Core/types/rate-limit.type";
+import { CreateRequestHandler } from "#Core/types/common.type";
+import TransactionManager from "#Core/config/managers/transaction.manager";
+import { createRateLimitMiddleware } from "#Middleware/rate-limit.middleware";
+import { createTurnstileMiddleware } from "#Middleware/turnstile.middleware";
 
 export default class Container {
   private static instance: Container;
 
+  // Controllers
   public authController!: AuthController;
+
+  // Middlewares
+  public turnstileMiddleware!: RequestHandler;
+
+  // Create middlewares
+  public createRateLimit!: CreateRequestHandler<[options: RateLimitOptions]>;
 
   private constructor() {}
 
@@ -37,6 +50,11 @@ export default class Container {
     const databaseProvider = new DatabaseProvider(env.DATABASE_URL);
     await databaseProvider.connect();
     const dbClient = databaseProvider.getClient();
+
+    // const transactionManager = new TransactionManager(dbClient);
+
+    this.turnstileMiddleware = createTurnstileMiddleware();
+    this.createRateLimit = createRateLimitMiddleware;
 
     // Initialize repositories
     const credentialRepository = new CredentialRepository(dbClient);

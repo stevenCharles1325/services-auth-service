@@ -1,4 +1,4 @@
-import { parseExpiry } from "#Utils/time.util";
+import { parseExpiry } from "#Core/utils/time.util";
 import jwt from "jsonwebtoken";
 
 export default class TokenManager {

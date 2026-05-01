@@ -17,8 +17,9 @@ import {
   NotFoundError,
 } from "#Core/errors/http.error";
 import { logger } from "#Core/config/managers/log.manager";
+import { AuthResponse, IAuthService } from "#Core/types/auth.type";
 
-export default class AuthService {
+export default class AuthService implements IAuthService {
   private readonly logger = logger.child({ context: "AuthService" });
 
   constructor(
@@ -30,13 +31,8 @@ export default class AuthService {
     private readonly env: AppConfig,
   ) {}
 
-  public async login(signIn: SignInDTO): Promise<{
-    accessToken: string;
-    accessTokenExpiry: number;
-    refreshToken: string;
-    refreshTokenExpiry: number;
-  }> {
-    const { email, password } = signIn;
+  public async login(data: SignInDTO): Promise<AuthResponse> {
+    const { email, password } = data;
 
     this.logger.info({ email }, "Login attempt");
 
@@ -98,8 +94,8 @@ export default class AuthService {
     };
   }
 
-  public async register(signUp: SignUpDTO): Promise<void> {
-    const { email, password } = signUp;
+  public async register(data: SignUpDTO): Promise<void> {
+    const { email, password } = data;
 
     this.logger.info({ email }, "Registration attempt");
 
@@ -279,12 +275,7 @@ export default class AuthService {
     this.logger.info({ credentialId }, "Password reset successfully");
   }
 
-  public async refreshToken(oldRefreshToken: string): Promise<{
-    accessToken: string;
-    accessTokenExpiry: number;
-    refreshToken: string;
-    refreshTokenExpiry: number;
-  }> {
+  public async refreshToken(oldRefreshToken: string): Promise<AuthResponse> {
     this.logger.info("Refresh token attempt");
 
     const hashedOldRefreshToken =

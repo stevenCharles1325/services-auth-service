@@ -6,6 +6,18 @@ interface HttpErrorOptions {
   meta?: Record<string, unknown>;
 }
 
+export class TooManyRequestsError extends AppError {
+  constructor(options: HttpErrorOptions = {}) {
+    super({
+      statusCode: 429,
+      code: "TOO_MANY_REQUESTS",
+      message: options.message ?? "Too many requests",
+      cause: options.cause,
+      meta: options.meta,
+    });
+  }
+}
+
 export class BadRequestError extends AppError {
   constructor(options: HttpErrorOptions = {}) {
     super({

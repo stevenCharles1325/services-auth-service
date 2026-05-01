@@ -21,3 +21,7 @@ export const REFRESH_TOKEN_COOKIE: CookieOptions = {
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
   path: "/auth/refresh", // only sent to the refresh endpoint
 };
+
+export const DEFAULT_HEADER = "cf-turnstile-response";
+export const DEFAULT_BODY_FIELD = "turnstileToken";
+

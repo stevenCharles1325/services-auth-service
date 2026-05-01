@@ -1,4 +1,4 @@
-import IRefreshTokenRepository from "#Core/interfaces/refresh-token-repository.interface";
+import IRefreshTokenRepository from "#Core/types/refresh-token.type";
 import { Prisma, PrismaClient, RefreshToken } from "#Prisma";
 
 export default class RefreshTokenRepository implements IRefreshTokenRepository {
