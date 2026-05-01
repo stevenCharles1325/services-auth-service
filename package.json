@@ -17,69 +17,29 @@
     "prisma:dev:migrate": "prisma migrate dev --name $npm_config_name"
   },
   "imports": {
-    "#Controllers/*": {
-      "development": "./src/controller/*.ts",
-      "production": "./src/controller/*.js"
+    "#App/*": {
+      "development": "./src/app/*.ts",
+      "production": "./src/app/*.js"
     },
-    "#Services/*": {
-      "development": "./src/services/*.ts",
-      "production": "./src/services/*.js"
+    "#Core/*": {
+      "development": "./src/core/*.ts",
+      "production": "./src/core/*.js"
     },
-    "#Repositories/*": {
-      "development": "./src/repositories/*.ts",
-      "production": "./src/repositories/*.js"
+    "#Infrastructure/*": {
+      "development": "./src/infrastructure/*.ts",
+      "production": "./src/infrastructure/*.js"
     },
-    "#Routes/*": {
-      "development": "./src/routes/*.ts",
-      "production": "./src/routes/*.js"
+    "#Main/*": {
+      "development": "./src/main/*.ts",
+      "production": "./src/main/*.js"
     },
     "#Middlewares/*": {
       "development": "./src/middlewares/*.ts",
       "production": "./src/middlewares/*.js"
     },
-    "#Providers/*": {
-      "development": "./src/providers/*.ts",
-      "production": "./src/providers/*.js"
-    },
-    "#Schemas/*": {
-      "development": "./src/schemas/*.ts",
-      "production": "./src/schemas/*.js"
-    },
-    "#Errors/*": {
-      "development": "./src/errors/*.ts",
-      "production": "./src/errors/*.js"
-    },
-    "#Interfaces/*": {
-      "development": "./src/interfaces/*.ts",
-      "production": "./src/interfaces/*.js"
-    },
-    "#Utils/*": {
-      "development": "./src/utils/*.ts",
-      "production": "./src/utils/*.js"
-    },
-    "#Container": {
-      "development": "./src/container.ts",
-      "production": "./src/container.js"
-    },
-    "#Constants": {
-      "development": "./src/config/constants.ts",
-      "production": "./src/config/constants.js"
-    },
-    "#Env": {
-      "development": "./src/config/env/index.ts",
-      "production": "./src/config/env/index.js"
-    },
-    "#Managers": {
-      "development": "./src/config/managers/*.ts",
-      "production": "./src/config/managers/*.js"
-    },
-    "#Server": {
-      "development": "./src/server.ts",
-      "production": "./src/server.js"
-    },
     "#Prisma": {
-      "development": "./src/generated/prisma/client.ts",
-      "production": "./src/generated/prisma/client.js"
+      "development": "./src/infrastructure/database/generated/prisma/client.ts",
+      "production": "./src/infrastructure/database/generated/prisma/client.js"
     }
   },
   "keywords": [],

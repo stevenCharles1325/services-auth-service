@@ -37,22 +37,12 @@
     // "moduleResolution": "node10",                     /* Specify how TypeScript looks up a file from a given module specifier. */
     "baseUrl": "./" /* Specify the base directory to resolve non-relative module names. */,
     "paths": {
-      "#Controllers/*": ["src/controllers/*.ts"],
-      "#Services/*": ["src/services/*.ts"],
-      "#Repositories/*": ["src/repositories/*.ts"],
-      "#Routes/*": ["src/routes/*.ts"],
-      "#Middlewares/*": ["src/middlewares/*.ts"],
-      "#Providers/*": ["src/providers/*.ts"],
-      "#Schemas/*": ["src/schemas/*.ts"],
-      "#Errors/*": ["src/errors/*.ts"],
-      "#Interfaces/*": ["src/interfaces/*.ts"],
-      "#Utils/*": ["src/utils/*.ts"],
-      "#Managers/*": ["src/config/managers/*.ts"],
-      "#Constants": ["src/config/constants.ts"],
-      "#Env": ["src/config/env/index.ts"],
-      "#Container": ["src/container.ts"],
-      "#Server": ["src/server.ts"],
-      "#Prisma": ["src/generated/prisma/client.ts"]
+      "#App/*": ["src/app/*.ts"],
+      "#Core/*": ["src/core/*.ts"],
+      "#Infrastructure/*": ["src/infrastructure/*.ts"],
+      "#Middleware/*": ["src/middlewares/*.ts"],
+      "#Main/*": ["src/main/*.ts"],
+      "#Prisma": ["src/infrastructure/database/generated/prisma/client.ts"]
     } /* Specify a set of entries that re-map imports to additional lookup locations. */,
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */

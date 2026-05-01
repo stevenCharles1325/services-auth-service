@@ -1,9 +1,9 @@
-import Container from "#Container";
+import Container from "./container";
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
-import createAuthRoutes from "#Routes/auth.route";
-import { errorMiddleware } from "#Middlewares/error.middleware";
+import createAuthRoutes from "#App/routes/auth.route";
+import { errorMiddleware } from "#Middleware/error.middleware";
 
 export default async function createServer(container: Container) {
   const app = express();

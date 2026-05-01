@@ -1,4 +1,4 @@
-import { logger } from "#Managers/log.manager";
+import { logger } from "#Core/config/managers/log.manager";
 import { PrismaClient } from "#Prisma";
 
 export default class DatabaseProvider {

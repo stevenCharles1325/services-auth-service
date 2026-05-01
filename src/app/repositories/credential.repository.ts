@@ -1,4 +1,4 @@
-import ICredentialRepository from "#Interfaces/credential-repository.interface";
+import ICredentialRepository from "#Core/interfaces/credential-repository.interface";
 import { Prisma, PrismaClient, Credential } from "#Prisma";
 
 export default class CredentialRepository implements ICredentialRepository {

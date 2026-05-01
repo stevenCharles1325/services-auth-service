@@ -1,6 +1,6 @@
-import Container from "#Container";
-import { logger } from "#Managers/log.manager";
-import createServer from "#Server";
+import Container from "#Main/container";
+import createServer from "#Main/server";
+import { logger } from "#Core/config/managers/log.manager";
 
 async function bootstrap() {
   const container = Container.getInstance();

@@ -1,13 +1,14 @@
-import AuthController from "#Controllers/auth.controller";
-import { validate } from "#Middlewares/validation.middleware";
+import AuthController from "#App/controllers/auth.controller";
+import { validate } from "#Middleware/validation.middleware";
 import {
   ForgotPasswordSchema,
   ResetPasswordSchema,
   SignInSchema,
   SignUpSchema,
   VerifyEmailSchema,
-} from "#Schemas/auth.schema";
+} from "#Core/schemas/auth.schema";
 import express from "express";
+
 export default function createAuthRoutes(authController: AuthController) {
   const router = express.Router();
 

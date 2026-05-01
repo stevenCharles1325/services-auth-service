@@ -72,4 +72,6 @@ typings/
 # Serverless directories
 .serverless
 
-src/generated/prisma
+src/infrastructure/database/generated
+.vscode
+.claude

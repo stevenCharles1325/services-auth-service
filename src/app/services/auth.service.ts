@@ -1,14 +1,22 @@
-import type CredentialRepository from "#Repositories/credential.repository";
-import type OTPCodeRepository from "#Repositories/otp-code.repository";
-import type RefreshTokenRepository from "#Repositories/refresh-token.repository";
-import { ResetPasswordDTO, SignInDTO, SignUpDTO } from "#Schemas/auth.schema";
-import type HashManager from "src/config/managers/hash.manager";
-import TokenManager from "src/config/managers/token.manager";
+import type CredentialRepository from "#App/repositories/credential.repository";
+import type OTPCodeRepository from "#App/repositories/otp-code.repository";
+import type RefreshTokenRepository from "#App/repositories/refresh-token.repository";
+import {
+  ResetPasswordDTO,
+  SignInDTO,
+  SignUpDTO,
+} from "#Core/schemas/auth.schema";
+import type HashManager from "#Core/config/managers/hash.manager";
+import TokenManager from "#Core/config/managers/token.manager";
 import crypto from "crypto";
-import { OTP_CODE_EXPIRATION_MINUTES } from "src/config/constants";
-import { AppConfig } from "#Env";
-import { BadRequestError, ConflictError, NotFoundError } from "#Errors/http.error";
-import { logger } from "#Managers/log.manager";
+import { OTP_CODE_EXPIRATION_MINUTES } from "#Core/config/constants";
+import { AppConfig } from "#Core/config/env/index";
+import {
+  BadRequestError,
+  ConflictError,
+  NotFoundError,
+} from "#Core/errors/http.error";
+import { logger } from "#Core/config/managers/log.manager";
 
 export default class AuthService {
   private readonly logger = logger.child({ context: "AuthService" });

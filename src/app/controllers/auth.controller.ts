@@ -3,10 +3,10 @@ import {
   SignInDTO,
   SignUpDTO,
   VerifyEmailDTO,
-} from "#Schemas/auth.schema";
-import AuthService from "#Services/auth.service";
+} from "#Core/schemas/auth.schema";
+import AuthService from "#App/services/auth.service";
 import { Request, Response } from "express";
-import { ACCESS_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE } from "#Constants";
+import { ACCESS_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE } from "#Core/config/constants";
 
 export default class AuthController {
   constructor(private readonly authService: AuthService) {}

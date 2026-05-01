@@ -1,9 +1,5 @@
-import IRefreshTokenRepository from "#Interfaces/refresh-token-repository.interface";
-import { PrismaClient, RefreshToken } from "#Prisma";
-import {
-  RefreshTokenCreateInput,
-  RefreshTokenUpdateInput,
-} from "src/generated/prisma/models";
+import IRefreshTokenRepository from "#Core/interfaces/refresh-token-repository.interface";
+import { Prisma, PrismaClient, RefreshToken } from "#Prisma";
 
 export default class RefreshTokenRepository implements IRefreshTokenRepository {
   constructor(private readonly prisma: PrismaClient) {}
@@ -39,13 +35,15 @@ export default class RefreshTokenRepository implements IRefreshTokenRepository {
     });
   }
 
-  public async create(data: RefreshTokenCreateInput): Promise<RefreshToken> {
+  public async create(
+    data: Prisma.RefreshTokenCreateInput,
+  ): Promise<RefreshToken> {
     return this.prisma.refreshToken.create({ data });
   }
 
   public async update(
     id: string,
-    data: RefreshTokenUpdateInput,
+    data: Prisma.RefreshTokenUpdateInput,
   ): Promise<RefreshToken> {
     return this.prisma.refreshToken.update({ where: { id }, data });
   }

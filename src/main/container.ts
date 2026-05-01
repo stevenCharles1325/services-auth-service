@@ -1,12 +1,12 @@
-import AuthController from "#Controllers/auth.controller";
-import DatabaseProvider from "#Providers/database.provider";
-import CredentialRepository from "#Repositories/credential.repository";
-import OTPCodeRepository from "#Repositories/otp-code.repository";
-import RefreshTokenRepository from "#Repositories/refresh-token.repository";
-import AuthService from "#Services/auth.service";
-import { envManager } from "./config/env";
-import HashManager from "./config/managers/hash.manager";
-import TokenManager from "./config/managers/token.manager";
+import AuthController from "#App/controllers/auth.controller";
+import DatabaseProvider from "#Infrastructure/providers/database.provider";
+import CredentialRepository from "#App/repositories/credential.repository";
+import OTPCodeRepository from "#App/repositories/otp-code.repository";
+import RefreshTokenRepository from "#App/repositories/refresh-token.repository";
+import AuthService from "#App/services/auth.service";
+import { envManager } from "#Core/config/env/index";
+import HashManager from "#Core/config/managers/hash.manager";
+import TokenManager from "#Core/config/managers/token.manager";
 
 export default class Container {
   private static instance: Container;

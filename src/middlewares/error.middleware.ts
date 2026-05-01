@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { ZodError } from "zod";
-import { AppError } from "#Errors/app.error";
+import { AppError } from "#Core/errors/app.error";
 
 interface ErrorResponse {
   success: false;
